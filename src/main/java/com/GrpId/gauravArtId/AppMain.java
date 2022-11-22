@@ -8,3 +8,4 @@ public class AppMain {
     vertx.deployVerticle(new ApiVerticle(vertx));
   }
 }
+
