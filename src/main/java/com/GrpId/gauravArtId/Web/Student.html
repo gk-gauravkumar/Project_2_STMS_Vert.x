@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student</title>
+  <style>
+table, th, td {
+  border: 1px solid black;
+}
+div.opInsert{
+position:fixed;
+bottom: 400px;
+right: 700px;
+width:300px;
+height:200px;
+border: 3px solid#73AD21;
+}
+div.opGet{
+position:fixed;
+bottom: 400px;
+right: 200px;
+width:300px;
+height:200px;
+border: 3px solid#73AD21;
+}
+</style>
+  <script src="fun.js"></script>
+</head>
+<body>
+<table style="width:100%">
+  <tr style="height:300px">
+    <td>
+      <form id="myForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" ><br>
+        <label for="address">Address:</label><br>
+        <input type="text" id="address" name="address" ><br>
+        <label for="rollNo">Roll No:</label><br>
+        <input type="text" id="rollNo" name="rollNo" ><br>
+        <label for="marks">Marks:</label><br>
+        <input type="text" id="marks" name="marks" ><br>
+        <input id="postSubmit" type="submit" value="Send !">
+      </form>
+      <script>
+      const thisForm = document.getElementById('myForm');
+      thisForm.addEventListener('submit', async function (e) {
+      e.preventDefault();alert("innnnnn")
+      const formData = new FormData(thisForm).entries()
+      let response = await fetch('http://localhost:8080/student/insert', {
+      method: 'POST',
+      body: JSON.stringify(Object.fromEntries(formData))
+      });
+      let result = await response.json();
+      alert(result.message)
+      document.getElementById(opInsert).innerHTML = result;
+      console.log(result)
+      });
+
+      </script>
+      <div class="opInsert">asdfghjkl</div>
+    </td>
+    <td><button type="button" onclick="get()">get</button>
+      <p id="getCall"><input type="text" placeholder="output" id="getCallOp"></p>
+      <script>
+      function get(){
+      alert("sending get request")
+      var url = new URL("http://localhost:8080/student/get"),
+    params = {rollno:"101"}
+    url.search = new URLSearchParams(params);
+       var p = fetch(url,params)
+      .then(data => data.json())
+      .then((data) => {
+          (data) => console.log(data)
+          //alert(JSON.stringify(data))
+          const output = data
+      })
+      div.getElementById("opGet").innerHTML = output;
+      }
+      </script>
+      <div class="opGet">asdfghjkl</div>
+    </td>
+  </tr>
+  <tr style="height:300px">
+    <td>
+      <form id="myForm1">
+        <label for="name">Name:</label><br>
+        <input type="text" id="nameup" name="name" ><br>
+        <label for="address">Address:</label><br>
+        <input type="text" id="addressup" name="address" ><br>
+        <label for="rollNo">Roll No:</label><br>
+        <input type="text" id="rollNoup" name="rollNo" ><br>
+        <label for="marks">Marks:</label><br>
+        <input type="text" id="marksup" name="marks" ><br>
+        <input id="putSubmit" type="submit" value="Send !">
+      </form>
+      <script>
+      const thisForm1 = document.getElementById('myForm1');
+      thisForm1.addEventListener('submit', async function (e) {
+      e.preventDefault();alert("innnnnn")
+      const formData1 = new FormData(thisForm1).entries()
+      let response = await fetch('http://localhost:8080/student/update', {
+      method: 'PUT',
+      body: JSON.stringify(Object.fromEntries(formData1))
+      });
+      let result = await response.json();
+      alert(result.message)
+      console.log(result)
+      });
+      </script>
+    </td>
+    <td><button type="button" id="delete">delete</button>
+      <script>
+      const del = document.getElementById('delete')
+      del.addEventListener('onclick',delete())
+      function delete(){
+      alert("sending delete request")
+      var url = new URL("http://localhost:8080/student/delete/")
+      var roll = 23
+       fetch(url+roll,{
+       method : 'DELETE')}
+      .then(data => data.json())
+      .then((data) => {
+          (data) => console.log(data)
+          })
+     }
+      </script>
+    </td>
+  </tr>
+</table>
+</body>
+</html>
