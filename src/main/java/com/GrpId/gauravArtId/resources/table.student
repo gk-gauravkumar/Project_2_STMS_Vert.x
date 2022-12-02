@@ -1,0 +1,17 @@
+-- Table: public.student
+
+-- DROP TABLE IF EXISTS public.student;
+
+CREATE TABLE IF NOT EXISTS public.student
+(
+    name character varying COLLATE pg_catalog."default",
+    rollno character varying COLLATE pg_catalog."default" NOT NULL,
+    address character varying COLLATE pg_catalog."default",
+    marks bigint,
+    CONSTRAINT student_pkey PRIMARY KEY (rollno)
+)
+
+TABLESPACE pg_default;
+
+ALTER TABLE IF EXISTS public.student
+    OWNER to postgres;
