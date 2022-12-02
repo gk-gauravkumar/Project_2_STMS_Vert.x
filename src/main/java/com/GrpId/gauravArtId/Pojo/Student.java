@@ -3,7 +3,7 @@ package com.GrpId.gauravArtId.Pojo;
 public class Student {
 
   String name;
-  String rollNo;
+  String rollno;
   String address;
   int marks;
 
@@ -19,12 +19,12 @@ public class Student {
     this.name = name;
   }
 
-  public String getRollNo() {
-    return rollNo;
+  public String getRollno() {
+    return rollno;
   }
 
-  public void setRollNo(String rollNo) {
-    this.rollNo = rollNo;
+  public void setRollno(String rollno) {
+    this.rollno = rollno;
   }
 
   public String getAddress() {

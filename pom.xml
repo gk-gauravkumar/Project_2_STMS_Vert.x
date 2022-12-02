@@ -29,6 +29,21 @@
 
   <dependencyManagement>
     <dependencies>
+      <!-- https://mvnrepository.com/artifact/com.ongres.stringprep/stringprep -->
+      <dependency>
+        <groupId>com.ongres.stringprep</groupId>
+        <artifactId>stringprep</artifactId>
+        <version>2.0</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/androidx.databinding/databinding-common -->
+      <dependency>
+        <groupId>androidx.databinding</groupId>
+        <artifactId>databinding-common</artifactId>
+        <version>8.0.0-alpha08</version>
+      </dependency>
+
+
+
       <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-api</artifactId>

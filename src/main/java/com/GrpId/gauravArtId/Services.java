@@ -13,16 +13,16 @@ public class Services  {
   PgConnectOptions connectOptions = new PgConnectOptions()
     .setPort(5432)
     .setHost("localhost")
-    .setDatabase("demo")
+    .setDatabase("postgres")
     .setUser("postgres")
-    .setPassword("8979704800")
+    .setPassword("8979")
     .setReconnectAttempts(2)
     .setReconnectInterval(1000);
   PoolOptions poolOptions = new PoolOptions().setMaxSize(5);
   DbConnection dbConnection = new DbConnection(connectOptions);
   public Future<Result> insert(Student student) {
     Result result=new Result();
-    if(student.getRollNo().equals(""))
+    if(student.getRollno().equals(""))
       return Future.future(promise ->{
         result.setCode(1);
         result.setMessage("Roll number cannot be null");
@@ -30,8 +30,8 @@ public class Services  {
       });
     return Future.future(promise -> {
       dbConnection.client
-        .preparedQuery("INSERT INTO student (name, rollNo, address,marks) VALUES ($1, $2, $3, $4)")
-        .execute(Tuple.of(student.getName(), student.getRollNo(), student.getAddress(), student.getMarks()))
+        .preparedQuery("INSERT INTO student (name, rollno, address,marks) VALUES ($1, $2, $3, $4)")
+        .execute(Tuple.of(student.getName(), student.getRollno(), student.getAddress(), student.getMarks()))
         .onComplete(ar ->{
           if(ar.succeeded()){
             result.setCode(200);
@@ -49,7 +49,7 @@ public class Services  {
   }
   public Future<Result> update(Student student) {
     Result result=new Result();
-    if(student.getRollNo().equals(""))
+    if(student.getRollno().equals(""))
       return Future.future(promise ->{
         result.setCode(1);
         result.setMessage("Roll number cannot be null");
@@ -57,17 +57,17 @@ public class Services  {
       });
     return Future.future(promise -> {
       dbConnection.client
-        .preparedQuery("UPDATE student SET name = $1 ,address = $2 ,marks = $3 WHERE rollNo = $4")
-        .execute(Tuple.of(student.getName(), student.getAddress(), student.getMarks(), student.getRollNo()))
+        .preparedQuery("UPDATE student SET name = $1 ,address = $2 ,marks = $3 WHERE rollno = $4")
+        .execute(Tuple.of(student.getName(), student.getAddress(), student.getMarks(), student.getRollno()))
         .onComplete(ar ->{
-          if(ar.succeeded()){
+          if(ar.result().rowCount()>0){
             result.setCode(200);
             result.setMessage("Student details updatation successfull");
             promise.complete(result);
           }
           else {
             result.setCode(1);
-            result.setMessage(ar.cause().getMessage());
+            result.setMessage("record not found");
             promise.complete(result);
           }
         });
@@ -81,7 +81,7 @@ public class Services  {
 
     return Future.future(promise -> {
       dbConnection.client
-        .preparedQuery("SELECT * FROM student WHERE rollNo = $1")
+        .preparedQuery("SELECT * FROM student WHERE rollno = $1")
         .execute(Tuple.of(rollNo))
         .onComplete(ar -> {
           if (ar.succeeded()) {
@@ -90,7 +90,7 @@ public class Services  {
             for (Row row : rows) {
 
               student.setName(row.getString("name"));
-              student.setRollNo(row.getString("rollno"));
+              student.setRollno(row.getString("rollno"));
               student.setAddress(row.getString("address"));
               student.setMarks(row.getInteger("marks"));
             }
@@ -112,7 +112,7 @@ public class Services  {
       });
     return Future.future(promise -> {
       dbConnection.client
-        .preparedQuery("DELETE from student WHERE rollNo = $1")
+        .preparedQuery("DELETE from student WHERE rollno = $1")
         .execute(Tuple.of(rollNo))
         .onComplete(ar -> {
           if (ar.result().rowCount()>0) {
